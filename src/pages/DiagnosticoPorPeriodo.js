@@ -147,8 +147,8 @@ class DiagnosticoPorPeriodo extends React.Component {
 
 		{this.state.cont > 0 ?
 		<div style={{width: '1024px'}}>
-			<Container>
-				<div ref={el => (this.componentRef = el)} style={{width: '1024px'}}>
+			<div ref={el => (this.componentRef = el)} style={{width: '1024px'}}>
+				<Container>
 		      			<Table striped bordered hover>
 							<div className="m-2">
 				      			{`Período: ${new Date(this.state.dat1 + 86400000).getDate()}/${new Date(this.state.dat1 + 86400001).getMonth() + 1}/${new Date(this.state.dat1 + 86400001).getFullYear()} 
@@ -203,7 +203,9 @@ class DiagnosticoPorPeriodo extends React.Component {
 				      		
 				      		</div>
 		      			</Table>
+			  	</Container>
 			  </div>
+			  <Container>
 				 <ReactToPrint
 				 trigger={() =>{ 
 				 	return (
