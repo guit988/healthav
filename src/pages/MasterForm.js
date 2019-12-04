@@ -18,6 +18,7 @@ import {Link, Redirect} from 'react-router-dom';
 
 import firebase from '../config/firebase';
 import 'firebase/auth';
+import ReactToPrint from 'react-to-print';
 
 import { connect } from 'react-redux';
 
@@ -129,6 +130,10 @@ class MasterForm extends React.Component {
   // Use the submitted data to set the state
   handleChange(event) {
     const {name, value} = event.target
+    const {relatorio} = this.props;
+
+    if (relatorio)
+      return;
 
     this.setState({
       [name]: value
@@ -276,55 +281,71 @@ get nextButton() {
   render() {    
 
     const {usuarioLogado} = this.props;
+    const {relatorio} = this.props;
+
     return (
-      <React.Fragment>
 
-      {//usuarioLogado === 0 ? <Redirect to="/" /> : null
-      }
+      <div ref={el => (this.componentRef = el)}>
+        <React.Fragment>
 
-      {this.props.editar == undefined ? <Logo /> : null }
+        {//usuarioLogado === 0 ? <Redirect to="/" /> : null
+        }
 
-      <form>
-      
-        <Step1 
-          currentStep={this.state.currentStep} 
-          handleChange={this.handleChange}
-          state={this.state}
-        />
+        {this.props.editar == undefined ? <Logo /> : null }
 
-        <Step2 
-          currentStep={this.state.currentStep} 
-          handleChange={this.handleChange}
-          state={this.state}
-        />
+        <form>
+        
+          <Step1 
+            currentStep={this.state.currentStep}
+            relatorio={relatorio}
+            handleChange={this.handleChange}
+            state={this.state}
+          />
 
-        <Step3 
-          currentStep={this.state.currentStep} 
-          handleChange={this.handleChange}
-          state={this.state}
-        />
+          <Step2 
+            currentStep={this.state.currentStep}
+            relatorio={relatorio} 
+            handleChange={this.handleChange}
+            state={this.state}
+          />
 
-        <Step4 
-          currentStep={this.state.currentStep} 
-          handleChange={this.handleChange}
-          state={this.state}
-        />
+          <Step3 
+            currentStep={this.state.currentStep}
+            relatorio={relatorio} 
+            handleChange={this.handleChange}
+            state={this.state}
+          />
 
-        <Step5
-          currentStep={this.state.currentStep} 
-          handleChange={this.handleChange}
-          state={this.state}
-        />
+          <Step4 
+            currentStep={this.state.currentStep}
+            relatorio={relatorio} 
+            handleChange={this.handleChange}
+            state={this.state}
+          />
 
-        <Container className="my-1">
-          {this.previousButton}
-          {this.nextButton}
-        </Container>
-      </form>
+          <Step5
+            currentStep={this.state.currentStep}
+            relatorio={relatorio} 
+            handleChange={this.handleChange}
+            state={this.state}
+          />
+
+          {
+            relatorio ?
+              null
+            :
+              <Container className="my-1">
+                {this.previousButton}
+                {this.nextButton}
+              </Container>
+          }
+          
+        </form>
 
 
-      {/*<button type="button" onClick={this.verState}> ver state </button> */}
-      </React.Fragment>
+        {/*<button type="button" onClick={this.verState}> ver state </button> */}
+        </React.Fragment>
+      </div>
     )
   }
   

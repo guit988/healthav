@@ -13,7 +13,7 @@ const options = {
 
 const ref = React.createRef();
 
-class RelatorioGlobal extends React.Component {
+class DiagnosticoPorPeriodo extends React.Component {
 
 	constructor(props) {
 		super(props);
@@ -21,6 +21,15 @@ class RelatorioGlobal extends React.Component {
 		this.state = {
 			dat1: new Date('1970-01-01') - 0,
 			dat2: new Date() - 0,
+			contM: 0,
+			contF: 0,
+			avcHemorragicoM: 0,
+			avcIsquemicoM: 0,
+			acidenteIsquemicoTransitorioM: 0,
+			avcHemorragicoF: 0,
+			avcIsquemicoF: 0,
+			acidenteIsquemicoTransitorioF: 0,
+			contTotal: 0,
 			pacientes: [],
 			cont: 0,
 			carregando: false,
@@ -34,24 +43,51 @@ class RelatorioGlobal extends React.Component {
 	async receberDoBD() {
 		var ref = firebase.database().ref("dados/");
 		var cont = 0;
-		var arrayPacientes = [];
+		var AvcIsquemicoContM = 0;
+		var AvcHemorragicoContM = 0;
+		var AcidenteIsquemicoTransitorioContM = 0;
+		var AvcIsquemicoContF = 0;
+		var AvcHemorragicoContF = 0;
+		var AcidenteIsquemicoTransitorioContF = 0;
+		var contF = 0;
+		var arrayPacientesM = [];
+		var arrayPacientesF = [];
 		var arrayIdDoObjeto = [];
 		this.setState({carregando: true})
 
 		ref.orderByChild('dataDeChegada').startAt(this.state.dat1).endAt(this.state.dat2+ 86400001).once('value').then( function(snapshot) {
 
 			if(snapshot.val() === null) {
-				this.setState({pacientes: arrayPacientes, cont: cont, carregando: false})
+				this.setState({cont: cont, carregando: false})
 				return alert('Não foi encontrado')
 			}
 
 			snapshot.forEach(function(childSnapshot) {
 				console.log(childSnapshot.key);
-				arrayPacientes.push(childSnapshot.val());
+				if (childSnapshot.val().sexo === "M") {
+					if (childSnapshot.val().avcHemorragico)
+						AvcHemorragicoContM++;
+					if (childSnapshot.val().avcIsquemico)
+						AvcIsquemicoContM++;
+					if(childSnapshot.val().acidenteIsquemicoTransitorio)
+						AcidenteIsquemicoTransitorioContM++;
+				} else {
+					if (childSnapshot.val().sexo === "F") {
+						if (childSnapshot.val().avcHemorragico)
+							AvcHemorragicoContF++;
+						if (childSnapshot.val().avcIsquemico)
+							AvcIsquemicoContF++;
+						if(childSnapshot.val().acidenteIsquemicoTransitorio)
+							AcidenteIsquemicoTransitorioContF++;
+					}
+				}
 				cont++;	
 			}.bind(this))
 
-			this.setState({pacientes: arrayPacientes, cont: cont, carregando: false})
+			this.setState({cont: cont, carregando: false, 
+				avcHemorragicoM: AvcHemorragicoContM, avcIsquemicoM: AvcIsquemicoContM, acidenteIsquemicoTransitorioM: AcidenteIsquemicoTransitorioContM,
+				avcHemorragicoF: AvcHemorragicoContF, avcIsquemicoF: AvcIsquemicoContF, acidenteIsquemicoTransitorioF: AcidenteIsquemicoTransitorioContF,
+			})
 
 		}.bind(this)).catch( erro => {
 			console.log(erro)
@@ -72,7 +108,7 @@ class RelatorioGlobal extends React.Component {
 	  return (
 	    <div>
 	      <Logo />
-	       <Container className="my-3 mx-3 float-left">
+	      <Container className="my-3 mx-3 float-left">
 	    		<Row className="my-2">
 	    			Defina o período da sua busca.
 	    		</Row>
@@ -107,13 +143,12 @@ class RelatorioGlobal extends React.Component {
 	                    />
 	                </center>
                 </div>
-                :
-		      null }
+                : null }
 
 		{this.state.cont > 0 ?
 		<div style={{width: '1024px'}}>
-			<div ref={el => (this.componentRef = el)} style={{width: '1024px'}}>
-		      	<Container>
+			<Container>
+				<div ref={el => (this.componentRef = el)} style={{width: '1024px'}}>
 		      			<Table striped bordered hover>
 							<div className="m-2">
 				      			{`Período: ${new Date(this.state.dat1 + 86400000).getDate()}/${new Date(this.state.dat1 + 86400001).getMonth() + 1}/${new Date(this.state.dat1 + 86400001).getFullYear()} 
@@ -123,14 +158,32 @@ class RelatorioGlobal extends React.Component {
 				        <Table striped bordered hover className="text-center">
 						  <thead>
 						    <tr>
-						      <th>MATRICULA</th>
-						      <th>ATENDIMENTO</th>
-						      <th>NOME</th>
-						      <th>IDADE</th>
-						      <th>SEXO</th>
+						      <th></th>
+						      <th>AVC ISQUEMICO</th>
+						      <th>AVC HEMORRAGICO</th>
+						      <th>ACIDENTE ISQUEMICO TRANSITÓRIO</th>
+						      
 						    </tr>
 						  </thead>
 						  <tbody>
+						  	<tr>
+						  		<td>Sexo M</td>
+						  		<td>{this.state.avcIsquemicoM}</td>
+						  		<td>{this.state.avcHemorragicoM}</td>
+						  		<td>{this.state.acidenteIsquemicoTransitorioM}</td>
+						  	</tr>
+						  	<tr>
+						  		<td>Sexo F</td>
+						  		<td>{this.state.avcIsquemicoF}</td>
+						  		<td>{this.state.avcHemorragicoF}</td>
+						  		<td>{this.state.acidenteIsquemicoTransitorioF}</td>
+						  	</tr>
+						  	<tr>
+						  		<td>Total</td>
+						  		<td>{this.state.avcIsquemicoM + this.state.avcIsquemicoF}</td>
+						  		<td>{this.state.avcHemorragicoM + this.state.avcHemorragicoF}</td>
+						  		<td>{this.state.acidenteIsquemicoTransitorioM + this.state.acidenteIsquemicoTransitorioF}</td>
+						  	</tr>
 						  	{this.state.pacientes.map((item, index) => {
 						  		return (<tr key={index}>
 						  			<td> {item.matricula} </td>
@@ -150,11 +203,9 @@ class RelatorioGlobal extends React.Component {
 				      		
 				      		</div>
 		      			</Table>
-		      	</Container>
-			</div>
-			<Container>
+			  </div>
 				 <ReactToPrint
-				  trigger={() =>{ 
+				 trigger={() =>{ 
 				 	return (
 			        	<a>
 			            	<button type="button" className="btn my-2 btn-primary float-right"> Imprimir Relatório </button>
@@ -173,4 +224,4 @@ class RelatorioGlobal extends React.Component {
 
 }
 
-export default RelatorioGlobal;
+export default DiagnosticoPorPeriodo;

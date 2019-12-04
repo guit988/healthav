@@ -50,7 +50,7 @@ function Home() {
 							    alignItems: "center",
 							}}
 					    >
-							<Link className="myButton text-center" to="verrelatorioindividual"
+							<Link className="myButton text-center" to="/verrelatorioindividual/editar"
 								style={{
 								    display: "flex",
 								    justifyContent: "center",
@@ -71,8 +71,8 @@ function Home() {
 							    alignItems: "center",
 							}}
 					    >
-							<Link className="myButton" //to="relatorioglobal"
-								onClick={() => alert('Ainda não está pronto!')}
+							<Link className="myButton" to="/verrelatorioglobal"
+								//onClick={() => alert('Ainda não está pronto!')}
 								style={{
 								    display: "flex",
 								    justifyContent: "center",

@@ -78,9 +78,11 @@ class Step1 extends React.Component {
 
 
   render(props) {
-    if (this.props.currentStep !== 1) { // Prop: The current step
-      return null
-    }
+
+    if (!this.props.relatorio)
+      if (this.props.currentStep !== 1) { // Prop: The current step
+        return null
+      }
 
     let state = this.props.state;
 

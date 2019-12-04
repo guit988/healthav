@@ -20,6 +20,7 @@
     "react-spinners": "^0.6.1",
     "react-text-mask": "^5.4.3",
     "react-to-pdf": "^0.0.8",
+    "react-to-print": "^2.5.0",
     "redux": "^4.0.4",
     "redux-persist": "^6.0.0",
     "victory": "^33.1.2"

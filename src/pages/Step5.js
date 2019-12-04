@@ -147,14 +147,15 @@ class Step5 extends React.Component {
 
 	render() {
 
-		 if (this.props.currentStep !== 5) { // Prop: The current step
-		 	return null
-		 }
+		if (!this.props.relatorio)
+			 if (this.props.currentStep !== 5) { // Prop: The current step
+			 	return null
+			 }
 
 		const state = this.props.state;
 
 		return(
-			<div>
+			<div className="form-group">
 				<Container className="border p-3 rounded"> 
 
 					<Row>
@@ -234,7 +235,10 @@ class Step5 extends React.Component {
 							</Row>
 
 							<Row>
-								<button className="btn btn-primary my-3"  style={{width: "100%"}} type="button" onClick={this.adicionarInput} > Adicionar Outro Medicamento </button>
+								{ !this.props.relatorio ?
+									<button className="btn btn-primary my-3"  style={{width: "100%"}} type="button" onClick={this.adicionarInput} > Adicionar Outro Medicamento </button>
+								  : null
+								}
 							</Row>
 						</Col>
 						

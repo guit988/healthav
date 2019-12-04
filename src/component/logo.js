@@ -1,15 +1,17 @@
 import React from 'react';
-
+import {Link} from 'react-router-dom';
 import {Container, Row, Col, Image} from 'react-bootstrap';
 
-function Logo() {
+function Logo({classeDaLogo = "d-flex justify-content-center"}) {
 	return (
 		<Container>
         <Row>
           <Col>
-            <div className="d-flex justify-content-center">
-              <Image src={require("../img/ave.png")}/>
-            </div>
+            <Link to="/">
+              <div className={classeDaLogo}>
+                <Image src={require("../img/ave.png")}/>
+              </div>
+            </Link>
           </Col>
         </Row>
       	<br/>

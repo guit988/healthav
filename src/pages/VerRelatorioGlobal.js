@@ -51,14 +51,14 @@ class VerRelatoorioGlobal extends React.Component {
 							    alignItems: "center",
 							}}
 					    >
-							<Link className="myButton my-auto" to="cadastrarpaciente"
+							<Link className="myButton my-auto" to="/verrelatorioindividual/relatorio"
 								style={{
 								    display: "flex",
 								    justifyContent: "center",
 								    alignItems: "center",
 									}}
 								>
-								Dados do Atendimento
+								Atendimento Individual
 							</Link>
 						</div>
 					</Col>
@@ -72,7 +72,7 @@ class VerRelatoorioGlobal extends React.Component {
 							    alignItems: "center",
 							}}
 					    >
-							<Link className="myButton text-center" to="verrelatorioindividual"
+							<Link className="myButton text-center" to="/relatorioglobal"
 								style={{
 								    display: "flex",
 								    justifyContent: "center",
@@ -93,7 +93,7 @@ class VerRelatoorioGlobal extends React.Component {
 							    alignItems: "center",
 							}}
 					    >
-							<Link className="myButton" to="relatorioglobal"
+							<Link className="myButton" to="/diagnosticoporperiodo"
 								style={{
 								    display: "flex",
 								    justifyContent: "center",

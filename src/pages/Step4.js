@@ -185,14 +185,15 @@ class Step4 extends React.Component {
 
 	render() {
 
-		 if (this.props.currentStep !== 4) { // Prop: The current step
-		 	return null
-		 }
+		if (!this.props.relatorio)
+			 if (this.props.currentStep !== 4) { // Prop: The current step
+			 	return null
+			 }
 
 		const state = this.props.state;
 
 		return(
-			<div>
+			<div className="form-group">
 				<Container className="border p-3 rounded"> 
 					<Row className="d-flex justify-content-between">
 						<Col md = "6">
